@@ -12,6 +12,10 @@ public class LearnAPI : MonoBehaviour
 
     public Transform cube;
 
+    public Light myLight;
+
+    public Camera cam;
+
     private void Start()
     {
         // 【取得】屬性 Peoperties
@@ -28,8 +32,12 @@ public class LearnAPI : MonoBehaviour
 
         // 練習：
         // 1. 控制燈光顏色為紅色 Light
+        //myLight.color = Color.red;
+        myLight.color = new Color(0.8f, 0, 0);
         // 2. 設定燈光恢復預設值 Light
+        myLight.Reset();
         // 3. 調整攝影機的尺寸 3 Camera
+        cam.orthographicSize = 3;
     }
 
     private void Update()

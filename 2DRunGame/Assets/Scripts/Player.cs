@@ -38,7 +38,9 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Jump()
     {
-
+        // 動畫控制器.設定布林值("參數名稱"，布林值)
+        // true 玩家是否按下空白鍵
+        ani.SetBool("跳躍開關", true);
     }
 
     /// <summary>
@@ -91,7 +93,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-
+        Jump();
     }
     #endregion
 }
