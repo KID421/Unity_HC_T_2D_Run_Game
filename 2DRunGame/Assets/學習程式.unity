@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 748053337}
   - component: {fileID: 748053338}
   - component: {fileID: 748053339}
+  - component: {fileID: 748053340}
   m_Layer: 0
   m_Name: "\u5B78\u7FD2\u7269\u4EF6"
   m_TagString: Untagged
@@ -483,7 +484,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 748053334}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6517fd75d535e95499c84fe33191d582, type: 3}
   m_Name: 
@@ -493,6 +494,19 @@ MonoBehaviour:
   cube: {fileID: 141089112}
   myLight: {fileID: 2068046782}
   cam: {fileID: 408819449}
+--- !u!114 &748053340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 748053334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc229b04d49ae8b48a2a682bd59293e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  open: 1
 --- !u!1 &1767067970
 GameObject:
   m_ObjectHideFlags: 0
