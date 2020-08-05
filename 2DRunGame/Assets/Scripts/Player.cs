@@ -31,7 +31,10 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Move()
     {
-
+        // Time.deltaTime 一禎的時間
+        // Update 內移動、旋轉、運動 * Time.deltaTime
+        // 避免不同裝置執行速度不同
+        transform.Translate(speed * Time.deltaTime, 0, 0);   // 變形.位移(x, y, z)
     }
 
     /// <summary>
@@ -44,11 +47,16 @@ public class Player : MonoBehaviour
 
         // 2D 射線碰撞物件 = 2D 物理.射線碰撞(起點，方向，長度，圖層)
         // 圖層語法：1 << 圖層編號
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-0.05f, -1.1f), -transform.up, 0.001f, 1 << 8);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-0.05f, -1.1f), -transform.up, 0.01f, 1 << 8);
 
         if (hit)
         {
-            isGround = true;
+            isGround = true;                    // 如果 碰到地板 是否在地板上 = 是
+            ani.SetBool("跳躍開關", false);
+        }
+        else
+        {
+            isGround = false;       // 否則 是否在地板上 = 否
         }
 
         // 如果 在地板上
@@ -61,24 +69,10 @@ public class Player : MonoBehaviour
                 ani.SetBool("跳躍開關", true);
                 // 剛體.添加推力(二維向量)
                 rig.AddForce(new Vector2(0, jump));
-                // 是否在地板上 = 否
-                isGround = false;
+                // 音效來源.播放一次(音效，音量)
+                aud.PlayOneShot(soundJump, 0.3f);
             }
         }
-    }
-
-    // 繪製圖示事件：繪製輔助線條，僅在 Scene 看得到
-    private void OnDrawGizmos()
-    {
-        // 圖示.顏色 = 顏色.紅色
-        Gizmos.color = Color.red;
-        // 圖示.繪製射線(起點，方向)
-        // transform 此物件的變形元件
-        // transform.position 此物件的座標
-        // transform.up 此物件上方      Y 預設為 1
-        // transform.right 此物件右方   X 預設為 1
-        // transform.forward 此物件前方 Z 預設為 1
-        Gizmos.DrawRay(transform.position + new Vector3(-0.05f, -1.1f), -transform.up * 0.1f);
     }
 
     /// <summary>
@@ -88,6 +82,10 @@ public class Player : MonoBehaviour
     {
         bool ctrl = Input.GetKey(KeyCode.LeftControl);
         ani.SetBool("滑行開關", ctrl);
+
+        // 如果 按下 左邊 ctrl 播放一次音效
+        // 判斷式如果只有一行程式可以省略大括號
+        if (Input.GetKeyDown(KeyCode.LeftControl)) aud.PlayOneShot(soundSlide, 0.8f);
 
         // 如果 按下 ctrl
         if (ctrl)
@@ -149,8 +147,21 @@ public class Player : MonoBehaviour
     {
         Jump();
         Slide();
+        Move();
     }
 
-    
+    // 繪製圖示事件：繪製輔助線條，僅在 Scene 看得到
+    private void OnDrawGizmos()
+    {
+        // 圖示.顏色 = 顏色.紅色
+        Gizmos.color = Color.red;
+        // 圖示.繪製射線(起點，方向)
+        // transform 此物件的變形元件
+        // transform.position 此物件的座標
+        // transform.up 此物件上方      Y 預設為 1
+        // transform.right 此物件右方   X 預設為 1
+        // transform.forward 此物件前方 Z 預設為 1
+        Gizmos.DrawRay(transform.position + new Vector3(-0.05f, -1.1f), -transform.up * 0.01f);
+    }
     #endregion
 }
