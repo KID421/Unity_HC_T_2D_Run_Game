@@ -11,9 +11,10 @@ public class Player : MonoBehaviour
     [Header("血量"), Range(0, 2000)]
     public float hp = 500;
 
-    public bool isGround;
-    public int coin;
-    
+    private bool isGround;
+    private int coin;
+    private float hpMax;
+    private bool dead;
 
     [Header("音效區域")]
     public AudioClip soundHit;
@@ -23,7 +24,16 @@ public class Player : MonoBehaviour
 
     [Header("金幣數量")]
     public Text textCoin;
-    
+
+    [Header("血條")]
+    public Image imageHp;
+
+    [Header("結束畫面")]
+    public GameObject final;
+
+    [Header("過關標題與金幣")]
+    public Text textTitle;
+    public Text textFinalCoin;
 
     public Animator ani;
     public Rigidbody2D rig;
@@ -53,7 +63,7 @@ public class Player : MonoBehaviour
 
         // 2D 射線碰撞物件 = 2D 物理.射線碰撞(起點，方向，長度，圖層)
         // 圖層語法：1 << 圖層編號
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-0.05f, -1.1f), -transform.up, 0.01f, 1 << 8);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-0.05f, -1.1f), -transform.up, 0.05f, 1 << 8);
 
         if (hit)
         {
@@ -121,20 +131,17 @@ public class Player : MonoBehaviour
         Destroy(obj, 0);                        // 刪除(金幣物件，延遲時間)
     }
 
-    [Header("血條")]
-    public Image imageHp;
-
-    private float hpMax;
-
     /// <summary>
     /// 受傷
     /// </summary>
     private void Hit(GameObject obj)
     {
-        hp -= 30;                           // 扣血 hp -= 10
+        hp -= 99999;                           // 扣血 hp -= 10
         aud.PlayOneShot(soundHit);          // 播放音效
         imageHp.fillAmount = hp / hpMax;    // 更新血條
         Destroy(obj);                       // 刪除障礙物
+
+        if (hp <= 0) Dead();                // 如果 血量 <= 0 死亡
     }
 
     /// <summary>
@@ -142,7 +149,11 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Dead()
     {
-
+        ani.SetTrigger("死亡觸發");     // 死亡動畫
+        final.SetActive(true);          // 顯示結束畫面
+        speed = 0;                      // 速度 = 0 (停止移動)
+        dead = true;                    // 死亡 = 打勾
+        textTitle.text = "你失敗惹...";
     }
 
     /// <summary>
@@ -150,9 +161,11 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Pass()
     {
-
+        speed = 0;                          // 速度 = 0
+        final.SetActive(true);              // 顯示結束畫面
+        textTitle.text = "恭喜你過關惹!";
+        textFinalCoin.text = "本次金幣數量：" + coin;
     }
-
     #endregion
 
     #region 事件
@@ -163,6 +176,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (dead) return;   // 如果 死亡 跳出
+
+        if (transform.position.y <= -5) Dead();    // 第二種死法
+
         Jump();
         Slide();
         Move();
@@ -181,6 +198,9 @@ public class Player : MonoBehaviour
 
         // 如果 碰到障礙物 受傷
         if (collision.tag == "障礙物") Hit(collision.gameObject);
+
+        // 如果 碰撞資訊.名稱 等於 傳送門 過關
+        if (collision.name == "傳送門") Pass();
     }
 
     // 繪製圖示事件：繪製輔助線條，僅在 Scene 看得到
@@ -194,7 +214,7 @@ public class Player : MonoBehaviour
         // transform.up 此物件上方      Y 預設為 1
         // transform.right 此物件右方   X 預設為 1
         // transform.forward 此物件前方 Z 預設為 1
-        Gizmos.DrawRay(transform.position + new Vector3(-0.05f, -1.1f), -transform.up * 0.01f);
+        Gizmos.DrawRay(transform.position + new Vector3(-0.05f, -1.1f), -transform.up * 0.05f);
     }
     #endregion
 }
