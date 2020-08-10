@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 95141777}
   - component: {fileID: 95141776}
   - component: {fileID: 95141775}
+  - component: {fileID: 95141778}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -354,6 +355,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &95141778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95141774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa81d60b0c9dd049bded6d01bddc4f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1852693008}
+  speed: 20
+  limit: {x: 0, y: 0.7}
 --- !u!1 &141126700
 GameObject:
   m_ObjectHideFlags: 0
@@ -7518,6 +7534,8 @@ MonoBehaviour:
   soundSlide: {fileID: 8300000, guid: 03c609924b571db44b16036ed6cac46f, type: 3}
   soundJump: {fileID: 8300000, guid: f99c9d3604ccfd74c97b0de741e8822f, type: 3}
   soundCoin: {fileID: 8300000, guid: e73e8bd7a4f391b40984b059986a87f9, type: 3}
+  textCoin: {fileID: 610109166}
+  imageHp: {fileID: 1476937991}
   ani: {fileID: 1852693009}
   rig: {fileID: 1852693010}
   cap: {fileID: 1852693011}
