@@ -39,6 +39,16 @@ public class Player : MonoBehaviour
     public Rigidbody2D rig;
     public CapsuleCollider2D cap;
     public AudioSource aud;
+
+    [SerializeField]
+    private Vector3[] rayOffset =
+    {
+        new Vector3(-0.30f, -1.05f),
+        new Vector3(-0.05f, -1.10f),
+        new Vector3(+0.20f, -1.05f)
+    };
+    [SerializeField]
+    private float[] rayLength = { 0.15f, 0.12f, 0.15f };
     #endregion
 
     #region 方法
@@ -63,16 +73,18 @@ public class Player : MonoBehaviour
 
         // 2D 射線碰撞物件 = 2D 物理.射線碰撞(起點，方向，長度，圖層)
         // 圖層語法：1 << 圖層編號
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + new Vector3(-0.05f, -1.1f), -transform.up, 0.05f, 1 << 8);
+        RaycastHit2D hitL = Physics2D.Raycast(transform.position + rayOffset[0], -transform.up, rayLength[0], 1 << 8);
+        RaycastHit2D hitC = Physics2D.Raycast(transform.position + rayOffset[1], -transform.up, rayLength[1], 1 << 8);
+        RaycastHit2D hitR = Physics2D.Raycast(transform.position + rayOffset[2], -transform.up, rayLength[2], 1 << 8);
 
-        if (hit)
+        if (hitL || hitC || hitR)
         {
             isGround = true;                    // 如果 碰到地板 是否在地板上 = 是
             ani.SetBool("跳躍開關", false);
         }
         else
         {
-            isGround = false;       // 否則 是否在地板上 = 否
+            isGround = false;                   // 否則 是否在地板上 = 否
         }
 
         // 如果 在地板上
@@ -81,12 +93,11 @@ public class Player : MonoBehaviour
             // 如果 按下空白鍵
             if (space)
             {
-                // 動畫控制器.設定布林值("參數名稱"，布林值)
-                ani.SetBool("跳躍開關", true);
                 // 剛體.添加推力(二維向量)
                 rig.AddForce(new Vector2(0, jump));
                 // 音效來源.播放一次(音效，音量)
                 aud.PlayOneShot(soundJump, 0.3f);
+                ani.SetBool("跳躍開關", true);       // 動畫控制器.設定布林值("參數名稱"，布林值)
             }
         }
     }
@@ -214,7 +225,9 @@ public class Player : MonoBehaviour
         // transform.up 此物件上方      Y 預設為 1
         // transform.right 此物件右方   X 預設為 1
         // transform.forward 此物件前方 Z 預設為 1
-        Gizmos.DrawRay(transform.position + new Vector3(-0.05f, -1.1f), -transform.up * 0.05f);
+        Gizmos.DrawRay(transform.position + rayOffset[0], -transform.up * rayLength[0]);
+        Gizmos.DrawRay(transform.position + rayOffset[1], -transform.up * rayLength[1]);
+        Gizmos.DrawRay(transform.position + rayOffset[2], -transform.up * rayLength[2]);
     }
     #endregion
 }

@@ -4024,7 +4024,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &688278203
 Transform:
   m_ObjectHideFlags: 0
@@ -7548,21 +7548,23 @@ MonoBehaviour:
   speed: 5
   jump: 400
   hp: 500
-  isGround: 0
-  coin: 0
   soundHit: {fileID: 8300000, guid: 2ae0a11061bf0614988f95791fa01b13, type: 3}
   soundSlide: {fileID: 8300000, guid: 03c609924b571db44b16036ed6cac46f, type: 3}
   soundJump: {fileID: 8300000, guid: f99c9d3604ccfd74c97b0de741e8822f, type: 3}
   soundCoin: {fileID: 8300000, guid: e73e8bd7a4f391b40984b059986a87f9, type: 3}
   textCoin: {fileID: 610109166}
-  ani: {fileID: 1852693009}
-  rig: {fileID: 1852693010}
-  cap: {fileID: 1852693011}
-  aud: {fileID: 1852693013}
   imageHp: {fileID: 1476937991}
   final: {fileID: 517843524}
   textTitle: {fileID: 628930233}
   textFinalCoin: {fileID: 1833744209}
+  ani: {fileID: 1852693009}
+  rig: {fileID: 1852693010}
+  cap: {fileID: 1852693011}
+  aud: {fileID: 1852693013}
+  rayOffset:
+  - {x: -0.3, y: -1.05, z: 0}
+  - {x: -0.05, y: -1.1, z: 0}
+  - {x: 0.2, y: -1.05, z: 0}
 --- !u!82 &1852693013
 AudioSource:
   m_ObjectHideFlags: 0
